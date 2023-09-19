@@ -1,8 +1,12 @@
+const mainBody = document.querySelector('body');
 const mainCalendar = document.querySelector('#load-main-calendar');
 
+// let loadingSymbol = document.createElement('div');
+// loadingSymbol.setAttribute('class', 'basic-loader-wrapper');
+// loadingSymbol.innerHTML += '<div class="basic-loader"></div>';
+
 let loadingSymbol = document.createElement('div');
-loadingSymbol.setAttribute('class', 'basic-loader-wrapper');
-loadingSymbol.innerHTML += '<div class="basic-loader"></div>';
+loadingSymbol.setAttribute('class', 'basic-loader');
 
 if( mainCalendar ){
 
@@ -14,6 +18,7 @@ if( mainCalendar ){
 
     function loadMainCalendar(month, year){
 
+        mainCalendar.textContent = '';
         mainCalendar.appendChild(loadingSymbol);
 
         fetch('ajax/calendar.php', {
@@ -31,8 +36,8 @@ if( mainCalendar ){
             .then(response => {
 
                 setTimeout(function(){
-                
-                    mainCalendar.textContent = '';
+                    
+                    mainCalendar.removeChild(loadingSymbol);
 
                     var calendarContainer = document.createElement('div');
                     calendarContainer.setAttribute('class', 'calendar');
@@ -94,7 +99,7 @@ if( mainCalendar ){
                     mainCalendar.appendChild(calendarNav);
                     calendarNavigation();
 
-                }, 650);
+                }, 450);
 
             })
         .catch(
@@ -153,6 +158,6 @@ if( mainCalendar ){
 
     }
 
-    loadMainCalendar(month, year);
+    calendarNavigation();
 
 }

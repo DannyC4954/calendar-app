@@ -9,6 +9,13 @@
 .mr-15 {
     margin-right: 15px;
 }
+.mt-20 {
+    margin-top: 20px;
+}
+
+.main-content {
+    padding: 10px;
+}
 
 /* Interview Schedule */
 .calendar {
