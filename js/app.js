@@ -102,8 +102,7 @@ if( mainCalendar ){
                         currentDay.setAttribute('class', 'current-day-schedule');
 
                         if( formattedDate == d ){
-                            currentDay.innerHTML += '<p class="mb-10">'+ numericDateToWordedDate(formattedDate) +'</p>\
-                            <hr>';
+                            currentDay.innerHTML += '<p class="mb-10">'+ numericDateToWordedDate(formattedDate) +'</p>';
                             document.querySelector('.calendar').appendChild(currentDay);
                         }
 
@@ -177,15 +176,13 @@ if( mainCalendar ){
 
                     this.classList.add('current-day');
                     currentSchedule.textContent = '';
-                    currentSchedule.innerHTML += '<p class="mb-10">'+ numericDateToWordedDate(this.dataset.date) +'</p>\
-                    <hr>';
+                    currentSchedule.innerHTML += '<p class="mb-10">'+ numericDateToWordedDate(this.dataset.date) +'</p>';
 
                 } else {
 
                     var currentDay = document.createElement('div');
                     currentDay.setAttribute('class', 'current-day-schedule');
-                    currentDay.innerHTML += '<p class="mb-10">'+ numericDateToWordedDate(currentDate) +'</p>\
-                    <hr>';
+                    currentDay.innerHTML += '<p class="mb-10">'+ numericDateToWordedDate(currentDate) +'</p>';
                     document.querySelector('.calendar').appendChild(currentDay);
                     this.classList.add('current-day');
 
