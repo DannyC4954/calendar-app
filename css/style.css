@@ -1,16 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 
 * {
     margin: 0;
-    font-family: 'DM Serif Display', serif;
+    font-family: 'Rubik', sans-serif;
 }
 
 /* Helpers */
+.mb-10 {
+    margin-bottom: 10px;
+}
 .mr-15 {
     margin-right: 15px;
 }
 .mt-20 {
     margin-top: 20px;
+}
+.align-right {
+    text-align: right;
 }
 
 .main-content {
@@ -23,11 +29,16 @@
     margin: 0px auto 30px auto;   
 }
 .calendar-header {
-    font-size: 13px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     font-weight: bold;
-    text-align: center;
     padding: 15px;
-    background-color: #EFB495;
+    background-color: #ADC4CE;
+}
+.header-title {
+    margin: 5px 0 0 0;
+    text-align: center;
+    font-size: 0.9rem;
 }
 .weekdays {
     display: grid;
@@ -38,6 +49,7 @@
 .weekdays div {
     padding: 10px;
     background-color: #f8f8f8;
+    border: 1px solid #ddd;
 }
 .days {
     display: grid;
@@ -70,13 +82,13 @@
     text-align: center;
     font-size: 0.9rem;
     border: 1px solid #2f2f2f;
-    padding: 6px 24px;
-    border-radius: 25px;
+    padding: 5px 12.5px;
+    border-radius: 4px;
     text-decoration: none;
     color: #2f2f2f!important;
 }
 .current-day {
-    border: 1px solid #EFB495!important;
+    border: 1px solid #ADC4CE!important;
 }
 .active-day {
     color: #EFB495!important;
@@ -96,14 +108,30 @@
 }
 .basic-loader {
     margin: 100px auto auto auto;
-    border: 12px solid #212121;
-    border-top: 12px solid #EFB495;
+    border: 14px solid #212121;
+    border-top: 14px solid #EFB495;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    animation: spin 0.40s linear infinite;
+    width: 28px;
+    height: 28px;
+    animation: spin 0.30s linear infinite;
 }
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+.fade-in-results {
+    animation: fadein 1s forwards;
+}
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+.current-day-schedule {
+    margin: 20px 0 0 0;
+    padding: 10px;
+    border: 1px solid #ddd;
 }
