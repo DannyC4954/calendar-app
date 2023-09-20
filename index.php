@@ -23,7 +23,13 @@
 
                 echo '<div class="calendar">';
                   echo '<div class="calendar-header">';
-                    echo '<span class="mr-15"><i class="fa-regular fa-calendar-days"></i></span>'.date('F').' '.date('Y').'';
+                    echo '<div>';
+                      echo '<a class="main-pg-btn" id="prev-month-btn" href="#">&#10094;</a>';
+                    echo '</div>';
+                    echo '<div class="header-title">'.date('F').' '.date('Y').'</div>';
+                    echo '<div class="align-right">';
+                      echo '<a class="main-pg-btn" id="next-month-btn" href="#">&#10095;</a>';
+                    echo '</div>';
                   echo '</div>';
                   echo '<div class="weekdays">';
 
@@ -33,7 +39,7 @@
                     }
 
                   echo '</div>';
-                  echo '<div class="days">';
+                  echo '<div class="days fade-in-results">';
 
                       if(!empty($dates['first']))
                       {
@@ -46,19 +52,28 @@
                       { 
                         if( $f == date('Y-m-d') )
                         {
-                          echo '<div class="current-day"><p>'.date('d', strtotime($f)).'</p></div>';
+                          echo '<div class="calendar-day current-day" data-date="'.$f.'"><p>'.date('d', strtotime($f)).'</p></div>';
                         } 
                         else 
                         {
-                          echo '<div><p>'.date('d', strtotime($f)).'</p></div>';
+                          echo '<div class="calendar-day" data-date="'.$f.'"><p>'.date('d', strtotime($f)).'</p></div>';
                         }
                       }
 
                   echo '</div>';
-                  echo '<div class="calendar-nav mt-20" id="calendar-nav">';
-                      echo '<a class="main-pg-btn mr-15" id="prev-month-btn" href="#">Previous</a>';
-                      echo '<a class="main-pg-btn" id="next-month-btn" href="#">Next</a>';
-                  echo '</div>';
+                  
+                  // Current day - schedule
+                  foreach($dates['main'] as $f)
+                  {
+                    if( $f == date('Y-m-d') )
+                    {
+                      echo '<div class="current-day-schedule">';
+                        echo '<p class="mb-10">'.date('l, j F Y', strtotime($f)).'</p>';
+                        echo '<hr class="mb-10">';
+                      echo '</div>';
+                    }
+                  }
+                  
                 echo '</div>';
                 
               ?>
