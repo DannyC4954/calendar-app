@@ -73,8 +73,6 @@ if( mainCalendar ){
                     }
 
                     response['main'].forEach(function(d){
-
-                        console.log(d);
                         
                         var dayNumber = d.substr(-2); 
                         var calendarDay = document.createElement('div');
