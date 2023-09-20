@@ -1,12 +1,12 @@
 const mainBody = document.querySelector('body');
 const mainCalendar = document.querySelector('#load-main-calendar');
 
-// let loadingSymbol = document.createElement('div');
-// loadingSymbol.setAttribute('class', 'basic-loader-wrapper');
-// loadingSymbol.innerHTML += '<div class="basic-loader"></div>';
-
 let loadingSymbol = document.createElement('div');
-loadingSymbol.setAttribute('class', 'basic-loader');
+loadingSymbol.setAttribute('class', 'basic-loader-wrapper');
+loadingSymbol.innerHTML += '<div class="basic-loader"></div>';
+
+// let loadingSymbol = document.createElement('div');
+// loadingSymbol.setAttribute('class', 'basic-loader');
 
 if( mainCalendar ){
 
@@ -18,8 +18,7 @@ if( mainCalendar ){
 
     function loadMainCalendar(month, year){
 
-        mainCalendar.textContent = '';
-        mainCalendar.appendChild(loadingSymbol);
+        // mainBody.appendChild(loadingSymbol);
 
         fetch('ajax/calendar.php', {
             headers: {
@@ -37,14 +36,21 @@ if( mainCalendar ){
 
                 setTimeout(function(){
                     
-                    mainCalendar.removeChild(loadingSymbol);
+                    mainCalendar.textContent = '';
+                    // mainBody.removeChild(loadingSymbol);
 
                     var calendarContainer = document.createElement('div');
                     calendarContainer.setAttribute('class', 'calendar');
 
                     var calendarHeader = document.createElement('div');
                     calendarHeader.setAttribute('class', 'calendar-header');
-                    calendarHeader.innerHTML += '<span class="mr-15"><i class="fa-regular fa-calendar-days"></i></span>'+ numberToMonthName(month) +' '+year;
+                    calendarHeader.innerHTML += '<div>\
+                    <a class="main-pg-btn" id="prev-month-btn" href="#">&#10094;</a>\
+                    </div>';
+                    calendarHeader.innerHTML += '<div class="header-title">'+ numberToMonthName(month) +' '+year+'</div>';
+                    calendarHeader.innerHTML += '<div class="align-right">\
+                    <a class="main-pg-btn" id="next-month-btn" href="#">&#10095;</a>\
+                    </div>';
 
                     var weekdaysHeader = document.createElement('div');
                     weekdaysHeader.setAttribute('class', 'weekdays');
@@ -58,10 +64,7 @@ if( mainCalendar ){
                     });
 
                     var days = document.createElement('div');
-                    days.setAttribute('class', 'days');
-
-                    var days = document.createElement('div');
-                    days.setAttribute('class', 'days');
+                    days.setAttribute('class', 'days fade-in-results');
 
                     if( response['first'] > 0 ){
                         for( var i = 0; i < response['first']; i++ ){
@@ -73,10 +76,11 @@ if( mainCalendar ){
                         
                         var dayNumber = d.substr(-2); 
                         var calendarDay = document.createElement('div');
+                        calendarDay.setAttribute('class', 'calendar-day');
                         calendarDay.setAttribute('data-date', d);
 
                         if( formattedDate == d ){
-                            calendarDay.setAttribute('class', 'current-day');
+                            calendarDay.setAttribute('class', 'calendar-day current-day');
                         }
 
                         calendarDay.innerHTML += '<p class="mb-20">'+dayNumber+'</p>';
@@ -87,19 +91,24 @@ if( mainCalendar ){
                     calendarContainer.appendChild(days);
                     mainCalendar.appendChild(calendarContainer);
 
-                    // Navigation 
-                    var calendarNav = document.createElement('div');
-                    calendarNav.setAttribute('class', 'mt-20');
-                    calendarNav.setAttribute('class', 'calendar-nav');
-                    calendarNav.setAttribute('id', 'calendar-nav');
+                    // Load current day
+                    response['main'].forEach(function(d){
+                        
+                        var currentDay = document.createElement('div');
+                        currentDay.setAttribute('class', 'current-day-schedule');
 
-                    calendarNav.innerHTML += '<a class="main-pg-btn mr-15" id="prev-month-btn" href="#">Previous</a>';
-                    calendarNav.innerHTML += '<a class="main-pg-btn" id="next-month-btn" href="#">Next</a>';
+                        if( formattedDate == d ){
+                            currentDay.innerHTML += '<p class="mb-10">'+ numericDateToWordedDate(formattedDate) +'</p>\
+                            <hr>';
+                            document.querySelector('.calendar').appendChild(currentDay);
+                        }
 
-                    mainCalendar.appendChild(calendarNav);
+                    });
+
                     calendarNavigation();
+                    chosenDate();
 
-                }, 450);
+                }, 350);
 
             })
         .catch(
@@ -143,6 +152,76 @@ if( mainCalendar ){
 
     }
 
+    function chosenDate(){
+
+        let calendarDays = document.querySelectorAll('.calendar-day');
+
+        calendarDays.forEach(function(d){
+
+            d.addEventListener('click', function(e){
+                
+                e.preventDefault();
+
+                calendarDays.forEach(function(d){
+                    d.classList.remove('current-day');
+                });
+                
+                let currentSchedule = document.querySelector('.current-day-schedule');
+                let currentDate = this.dataset.date;
+                
+                if( currentSchedule ){
+
+                    this.classList.add('current-day');
+                    currentSchedule.textContent = '';
+                    currentSchedule.innerHTML += '<p class="mb-10">'+ numericDateToWordedDate(this.dataset.date) +'</p>\
+                    <hr>';
+
+                } else {
+
+                    var currentDay = document.createElement('div');
+                    currentDay.setAttribute('class', 'current-day-schedule');
+                    currentDay.innerHTML += '<p class="mb-10">'+ numericDateToWordedDate(currentDate) +'</p>\
+                    <hr>';
+                    document.querySelector('.calendar').appendChild(currentDay);
+                    this.classList.add('current-day');
+
+                }
+
+            });
+
+        });
+
+    }
+
+    function numericDateToWordedDate(dateStr) {
+
+        const days = [
+          'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+        ];
+
+        const months = [
+          'January', 'February', 'March', 'April', 'May', 'June',
+          'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+      
+        const numericDate = new Date(dateStr);
+      
+        if (isNaN(numericDate)) {
+          return 'Invalid date';
+        }
+      
+        // Extract day, month, and year components
+        const day = days[numericDate.getDay()];
+        const month = months[numericDate.getMonth()];
+        const year = numericDate.getFullYear();
+      
+        // Construct the worded date
+        const wordedDate = `${day}, ${numericDate.getDate()} ${month} ${year}`;
+      
+        return wordedDate;
+
+    }
+
     function numberToMonthName(number) {
         
         const monthNames = [
@@ -159,5 +238,6 @@ if( mainCalendar ){
     }
 
     calendarNavigation();
+    chosenDate();
 
 }
