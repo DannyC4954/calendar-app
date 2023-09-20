@@ -53,6 +53,9 @@
                         if( $f == date('Y-m-d') )
                         {
                           echo '<div class="calendar-day current-day" data-date="'.$f.'"><p>'.date('d', strtotime($f)).'</p></div>';
+                        }
+                        else if( date('Y-m-d') > $f ){
+                          echo '<div class="past-day" data-date="'.$f.'"><p>'.date('d', strtotime($f)).'</p></div>';
                         } 
                         else 
                         {
@@ -70,6 +73,20 @@
                       echo '<div class="current-day-schedule">';
                         echo '<p class="mb-10">'.date('l, j F Y', strtotime($f)).'</p>';
                         echo '<hr class="mb-10">';
+                        // echo '<label class="date-label" for="chosen-time">Time (<span class="blue-txt">*</span>)</label>';
+                        // echo '<select id="chosen-time" class="chosen-time" name="time">';
+                        //   echo '<option value="">-- Select a time --</option>';
+                        //   echo '<option value="09:00">09:00</option>';
+                        //   echo '<option value="10:00">10:00</option>';
+                        //   echo '<option value="11:00">11:00</option>';
+                        //   echo '<option value="12:00">12:00</option>';
+                        //   echo '<option value="13:00">13:00</option>';
+                        //   echo '<option value="14:00">14:00</option>';
+                        //   echo '<option value="15:00">15:00</option>';
+                        //   echo '<option value="16:00">16:00</option>';
+                        // echo '</select>';
+                        // echo '<label class="date-label" for="notes">Notes (optional)</label>';
+                        // echo '<textarea class="booking-notes" id="notes" placeholder="Enter notes here"></textarea>';
                       echo '</div>';
                     }
                   }
